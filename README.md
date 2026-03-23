@@ -19,7 +19,7 @@ Also provides Saudi real estate domain context (typical price ranges, sort strat
 ### Claude Code (CLI)
 
 ```bash
-claude skill add --url https://github.com/getdarak/darak-mcp-skill
+claude skill add --url https://github.com/basseko/darak-mcp-skill
 ```
 
 ### Manual
@@ -28,7 +28,7 @@ Copy `SKILL.md` to `~/.claude/skills/darak-saudi-real-estate/SKILL.md`.
 
 ## Requires
 
-The [Darak MCP server](https://github.com/getdarak/darak-mcp-server) must be connected:
+The [Darak MCP server](https://github.com/basseko/darak-mcp-server) must be connected:
 
 ```bash
 claude mcp add --transport http darak https://mcp.darak.app/mcp

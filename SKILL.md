@@ -95,6 +95,14 @@ search_listings (sort: price_drop)
 
 Find listings that recently reduced their price, sorted by biggest percentage drop first. Combine with neighborhood filters to find motivated sellers/landlords in a specific area.
 
+### Price per Sqm Comparison
+
+```
+list_neighborhoods -> compare_neighborhoods (returns median_price_per_sqm and median_area_sqm)
+```
+
+Use when comparing raw vs developed land prices, evaluating auction pricing, or answering "is this price fair per sqm?" `compare_neighborhoods` is the only tool that returns per-neighborhood area and price/sqm data. `get_neighborhood_trends` returns price only, not area.
+
 ### Price Trend Analysis
 
 ```
@@ -168,10 +176,10 @@ Jeddah and Eastern Province are generally comparable. Makkah and Madinah vary by
 | Similar nearby listings       | `get_comparable_listings`   | id, limit                                                                                     |
 | Price change over time        | `get_price_history`         | id                                                                                            |
 | Best deals                    | `get_best_value_listings`   | city, listing_type, listing_category, property_type, neighborhood, beds, min_discount_pct     |
-| Price histogram + percentiles | `get_price_distribution`    | city, listing_type, listing_category, property_type, neighborhood                             |
+| Price histogram + percentiles | `get_price_distribution`    | city, listing_type, listing_category, property_type, neighborhood, beds (1-5)                 |
 | Area histogram                | `get_area_distribution`     | city, listing_type, listing_category, property_type, neighborhood                             |
 | Listing vs market             | `get_listing_market_stats`  | id (use FIRST for "is this a good deal?")                                                     |
-| Compare neighborhoods         | `compare_neighborhoods`     | neighborhoods (includes yield + affordability for rent)                                        |
+| Compare neighborhoods         | `compare_neighborhoods`     | neighborhoods (returns median_area_sqm, median_price_per_sqm, yield, affordability)           |
 | City overview + YoY           | `get_market_summary`        | city, listing_type, property_type                                                             |
 | Monthly trends                | `get_neighborhood_trends`   | neighborhoods, months, property_type                                                          |
 | Rental yield                  | `get_rental_yield`          | city, neighborhood, property_type                                                             |

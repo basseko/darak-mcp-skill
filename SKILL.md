@@ -135,6 +135,14 @@ search_listings (listing_category: 'commercial', property_type: 'office') -> get
 
 Always set `listing_category='commercial'` when searching for office, shop, or warehouse. The default 'residential' will return zero results for these types.
 
+### Description Search
+
+```
+search_listings (q: '"سكن طالبات" | "سكن موظفات"')
+```
+
+Use the `q` param to search listing descriptions and titles. Supports words (AND by default), quoted "phrases" for exact substring, and `|` for OR between groups. Useful for finding specific features or housing types not captured by structured filters (e.g. women-only housing, specific amenities mentioned in text, proximity descriptions).
+
 ## Domain Context
 
 **Typical Riyadh apartment rents (annual):**
@@ -169,7 +177,7 @@ Jeddah and Eastern Province are generally comparable. Makkah and Madinah vary by
 
 | Task                          | Tool                        | Key params                                                                                    |
 | ----------------------------- | --------------------------- | --------------------------------------------------------------------------------------------- |
-| Search with filters           | `search_listings`           | city, listing_type, listing_category, property_type, beds, price range, neighborhood, sort    |
+| Search with filters           | `search_listings`           | city, listing_type, listing_category, property_type, beds, price range, neighborhood, q, sort |
 | Count matching listings       | `get_listings_count`        | city, listing_type, listing_category, property_type, neighborhood, beds, price range          |
 | Batch lookup by IDs           | `get_listings_by_ids`       | ids (comma-separated)                                                                         |
 | Single listing details        | `get_listing`               | id                                                                                            |

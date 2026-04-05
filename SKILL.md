@@ -1,11 +1,11 @@
 ---
 name: darak-saudi-real-estate
-description: Use when researching Saudi Arabian rental or sale property markets, searching for apartments, villas, land, buildings, offices, or any property type, comparing neighborhoods, evaluating listing prices, or analyzing real estate trends in Riyadh, Jeddah, Eastern Province, Makkah, or Madinah. Also use when asked about Saudi housing costs, apartment hunting, best deals, rental yield, investment returns, ROI, affordability, rent burden, market supply trends, vacancy rates, stale listings, neighborhood safety, market conditions, or commercial real estate. Trigger on any question about Saudi property prices, rents, or real estate data, even if the user doesn't mention "Darak" by name.
+description: Use when researching Saudi Arabian rental or sale property markets, searching for apartments, villas, land, buildings, offices, or any property type, comparing neighborhoods, evaluating listing prices, or analyzing real estate trends in Riyadh, Jeddah, Eastern Province, Makkah, or Madinah. Also use when asked about Saudi housing costs, apartment hunting, best deals, rental yield, investment returns, ROI, affordability, rent burden, market supply trends, vacancy rates, stale listings, neighborhood safety, market conditions, commercial real estate, off-plan projects, new developments, developers, or project units. Trigger on any question about Saudi property prices, rents, real estate data, or development projects, even if the user doesn't mention "Darak" by name.
 ---
 
 # Darak Saudi Real Estate Research
 
-22 read-only MCP tools for 65,000+ Saudi property listings. All prices in SAR (Saudi Riyal). All tools are read-only and require no authentication.
+26 read-only MCP tools for 65,000+ Saudi property listings and development projects. All prices in SAR (Saudi Riyal). All tools are read-only and require no authentication.
 
 ## Critical Rules
 
@@ -127,6 +127,22 @@ get_listings_count (with filters)
 
 Returns just the total count without fetching listing data. Use when the user asks "how many 3BR apartments are for rent in Al Malqa?" or you need a count for context.
 
+### Off-Plan / Development Project Search
+
+```
+search_projects (city, type: 'off_plan') -> get_project (for full details + units)
+```
+
+Use for questions about new developments, off-plan projects, or specific developers. `search_projects` supports filtering by developer, neighborhood, features (pool, gym, etc.), supported banks, and price range. Use `list_developers` first to get valid developer names.
+
+### Project Unit Search
+
+```
+list_developers -> search_project_units (city, unit_beds, unit_price_max, developer)
+```
+
+Search individual units across projects when the user wants specific unit types (e.g. "3BR units under 1.5M in off-plan projects"). Combine project-level filters (developer, type, features) with unit-level filters (beds, baths, area, price).
+
 ### Commercial Property Search
 
 ```
@@ -197,5 +213,9 @@ Jeddah and Eastern Province are generally comparable. Makkah and Madinah vary by
 | Neighborhood list             | `list_neighborhoods`        | city (returns price_tier 1-4)                                                                 |
 | City districts                | `list_city_directions`      | city (use for "north Riyadh", "eastern Jeddah")                                               |
 | Nearby POIs                   | `get_neighborhood_pois`     | city, neighborhood                                                                            |
+| Search projects               | `search_projects`           | city, type (off_plan/ready), category, developer, neighborhood, features, banks, price, q     |
+| Project details + units       | `get_project`               | id                                                                                            |
+| Developer directory           | `list_developers`           | city (get valid names before filtering search_projects)                                       |
+| Search units in projects      | `search_project_units`      | city, unit_beds/baths/price/area, developer, type, features, banks, q                         |
 | Map bounds search             | `get_map_listings`          | bounds, zoom, property_type                                                                   |
 | Map POIs                      | `get_map_pois`              | bounds, zoom (min 10)                                                                         |

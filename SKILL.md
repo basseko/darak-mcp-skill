@@ -5,7 +5,7 @@ description: Use when researching Saudi Arabian rental or sale property markets,
 
 # Darak Saudi Real Estate Research
 
-26 read-only MCP tools for 65,000+ Saudi property listings and development projects. All prices in SAR (Saudi Riyal). All tools are read-only and require no authentication.
+23 read-only MCP tools for Saudi property listings and development projects. Connect to `https://platform.darak.app/mcp` over Streamable HTTP. Limited anonymous use is available; connected use signs in through `https://darak.app/api/auth` with read-only `darak.read` consent. This skill is optional guidance, not an MCP connection or a credential. All prices are in SAR (Saudi Riyal).
 
 ## Critical Rules
 
@@ -13,7 +13,7 @@ description: Use when researching Saudi Arabian rental or sale property markets,
 2. **Default city is Riyadh.** Always confirm which city the user means. The 5 supported cities: `riyadh`, `jeddah`, `eastern_province`, `makkah`, `madinah`.
 3. **Default listing type is rent.** Confirm whether the user wants rental or sale listings.
 4. **Commercial properties need listing_category='commercial'.** When searching for offices, shops, or warehouses, you MUST set `listing_category` to `'commercial'`. The default is `'residential'` and will return zero results for commercial property types.
-5. **`get_map_pois` returns empty below zoom 10.** Use `get_neighborhood_pois` instead when you have a neighborhood name.
+5. **Do not request nonexistent map or POI tools.** Use `get_neighborhood_rent_map` for neighborhood rent values; this MCP server does not provide `get_map_pois`, `get_map_listings`, or `get_neighborhood_pois`.
 
 ## Workflow Patterns
 
@@ -42,7 +42,7 @@ Returns listings priced below their neighborhood median. Each listing shows its 
 ### Neighborhood Comparison
 
 ```
-list_neighborhoods -> compare_neighborhoods (2-5 at once) -> get_neighborhood_pois (amenities for each) -> get_neighborhood_trends (price direction)
+list_neighborhoods -> compare_neighborhoods (2-5 at once) -> get_neighborhood_trends (price direction)
 ```
 
 Present as a comparison table: median price, price range (P25-P75), area, amenities, and price trend (rising/falling/stable).
@@ -212,10 +212,7 @@ Jeddah and Eastern Province are generally comparable. Makkah and Madinah vary by
 | City price map                | `get_neighborhood_rent_map` | city, listing_type, bedrooms                                                                  |
 | Neighborhood list             | `list_neighborhoods`        | city (returns price_tier 1-4)                                                                 |
 | City districts                | `list_city_directions`      | city (use for "north Riyadh", "eastern Jeddah")                                               |
-| Nearby POIs                   | `get_neighborhood_pois`     | city, neighborhood                                                                            |
 | Search projects               | `search_projects`           | city, type (off_plan/ready), category, developer, neighborhood, features, banks, price, q     |
 | Project details + units       | `get_project`               | id                                                                                            |
 | Developer directory           | `list_developers`           | city (get valid names before filtering search_projects)                                       |
 | Search units in projects      | `search_project_units`      | city, unit_beds/baths/price/area, developer, type, features, banks, q                         |
-| Map bounds search             | `get_map_listings`          | bounds, zoom, property_type                                                                   |
-| Map POIs                      | `get_map_pois`              | bounds, zoom (min 10)                                                                         |

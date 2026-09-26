@@ -1,44 +1,22 @@
-# Darak MCP Skill
+# darak-saudi-real-estate
 
-Optional Claude Code guidance for the [Darak](https://platform.darak.app/docs/guides/mcp) MCP server. Helps AI assistants research Saudi Arabian property markets using Darak's 23 read-only tools. It does not install the MCP connection or supply credentials.
+An Agent Skill for researching Saudi property with [Darak](https://darak.app)'s MCP server.
 
-## What it does
-
-Guides Claude through multi-tool workflows for common real estate tasks:
-
-- **Apartment hunting** — chaining search, market stats, and comparables
-- **Price evaluation** — percentile ranking and comparable analysis
-- **Neighborhood comparison** — side-by-side metrics with price trends
-- **Market analysis** — city overviews and price distributions
-- **Best deals** — listings priced below neighborhood medians
-
-Also provides Saudi real estate domain context (typical price ranges, sort strategies, presentation patterns) and documents critical gotchas like the neighborhood name lookup requirement.
+It adds what the server's tool descriptions can't: what the data is (asking prices, rent per year), what it isn't (sales, safety, forecasts), which tool fits a question, and how to present verdicts and caveats.
 
 ## Install
 
-Copy [SKILL.md](SKILL.md) to `~/.claude/skills/darak-saudi-real-estate/SKILL.md`:
+Connect the server first:
 
 ```bash
-git clone https://github.com/basseko/darak-mcp-skill.git
-mkdir -p ~/.claude/skills/darak-saudi-real-estate
-cp darak-mcp-skill/SKILL.md ~/.claude/skills/darak-saudi-real-estate/SKILL.md
+claude mcp add --transport http darak https://mcp.darak.app/mcp
 ```
 
-The skill is optional. Connect the MCP server separately as shown below.
+Then install the skill from [basseko/darak-mcp-skill](https://github.com/basseko/darak-mcp-skill), or copy `SKILL.md` to `~/.claude/skills/darak-saudi-real-estate/SKILL.md`.
 
-## Requires
+## Source and evals
 
-The [Darak MCP server](https://github.com/basseko/darak-mcp-server) must be connected:
-
-```bash
-claude mcp add --transport http darak https://platform.darak.app/mcp
-```
-
-The authorization-server issuer remains `https://darak.app/api/auth`. Connected
-use may prompt you to sign in and consent to read-only `darak.read` access;
-limited anonymous use is available. The old `https://darak.app/mcp` endpoint
-is retired. See the [MCP connection guide](https://platform.darak.app/docs/guides/mcp)
-for troubleshooting.
+The source lives in the Darak monorepo at `apps/mcp/skill/`, next to the server and its evals (`apps/mcp/evals/skill/`); `basseko/darak-mcp-skill` is the published copy. Change the skill only with an eval run before and after (see `apps/mcp/evals/skill/RESULTS.md`).
 
 ## License
 
